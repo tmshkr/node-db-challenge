@@ -16,8 +16,8 @@ exports.up = function (knex) {
           .unsigned()
           .notNullable()
           .references("projects.id")
-          .onUpdate("RESTRICT")
-          .onDelete("RESTRICT");
+          .onUpdate("CASCADE")
+          .onDelete("CASCADE");
         tbl.string("description").notNullable();
         tbl.text("notes");
         tbl.boolean("completed").notNullable();
