@@ -55,7 +55,11 @@ router.post("/tasks", (req, res) => {
       res.status(500).send("There was a problem creating the task");
     });
 });
+
 // GET /api/tasks
+router.get("/tasks", (req, res) => {
+  db.getTasks().then((data) => res.json(data));
+});
 
 router.get("/", (req, res) => {
   res.json({ api: "running..." });
