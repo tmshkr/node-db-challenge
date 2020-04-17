@@ -9,7 +9,7 @@ module.exports = {
   getTasks,
 };
 
-function addResource(newResource) {
+function addResource(newResource, project_id) {
   return db("resources").insert(newResource);
 }
 
@@ -17,7 +17,10 @@ function getResources() {
   return db("resources");
 }
 
-function addProject() {}
+function addProject(newProject, resource_id) {
+  return db("projects").insert(newProject);
+}
+
 function getProjects() {}
 
 function addTask() {}

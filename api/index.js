@@ -20,6 +20,18 @@ router.get("/resources", (req, res) => {
 });
 
 // POST /api/projects
+router.post("/projects", (req, res) => {
+  const { name, description, resource_id } = req.body;
+  const newProject = { name, description, completed: false };
+  if (!name) return res.status(400).send("Please provide a project name");
+  db.addProject(newProject, resource_id)
+    .then(() => res.status(201).send("Project created"))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("There was a problem creating the project");
+    });
+});
+
 // GET /api/projects
 
 // POST /api/tasks
