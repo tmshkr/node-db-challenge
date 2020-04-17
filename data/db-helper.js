@@ -10,7 +10,15 @@ module.exports = {
 };
 
 function addResource(newResource, project_id) {
-  return db("resources").insert(newResource);
+  return db("resources")
+    .insert(newResource)
+    .then(([id]) => {
+      if (project_id)
+        return db("projects-resources").insert({
+          project_id,
+          resource_id: id,
+        });
+    });
 }
 
 function getResources() {
@@ -18,7 +26,15 @@ function getResources() {
 }
 
 function addProject(newProject, resource_id) {
-  return db("projects").insert(newProject);
+  return db("projects")
+    .insert(newProject)
+    .then(([id]) => {
+      if (resource_id)
+        return db("projects-resources").insert({
+          project_id: id,
+          resource_id,
+        });
+    });
 }
 
 function getProjects() {
