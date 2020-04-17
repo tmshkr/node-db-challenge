@@ -34,7 +34,24 @@ router.post("/projects", (req, res) => {
 
 // GET /api/projects
 router.get("/projects", (req, res) => {
-  db.getProjects().then((data) => res.json(data));
+  db.getProjects()
+    .then((projects) => res.json(projects))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("There was a problem getting the projects");
+    });
+});
+
+// GET /api/projects/:id
+router.get("/projects/:id", (req, res) => {
+  db.getProjectByID(req.params.id)
+    .then((project) =>
+      project ? res.json(project) : res.status(404).send("Project not found")
+    )
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("There was a problem getting the project");
+    });
 });
 
 // POST /api/tasks

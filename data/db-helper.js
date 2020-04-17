@@ -5,6 +5,7 @@ module.exports = {
   getResources,
   addProject,
   getProjects,
+  getProjectByID,
   addTask,
   getTasks,
 };
@@ -39,6 +40,26 @@ function addProject(newProject, resource_id) {
 
 function getProjects() {
   return db("projects");
+}
+
+async function getProjectByID(id) {
+  const project = await db("projects").where({ id }).first();
+  if (!project) return undefined;
+  project.completed = !!project.completed;
+
+  const tasks = await db("tasks as t")
+    .join("projects as p", "p.id", "t.project_id")
+    .select("t.id", "t.description", "t.notes", "t.completed");
+  tasks.forEach((t) => (t.completed = !!t.completed));
+  project.tasks = tasks;
+
+  const resources = await db("resources as r")
+    .join("projects-resources as pr", "pr.resource_id", "r.id")
+    .where({ "pr.project_id": id })
+    .select("r.id", "r.name", "r.description");
+  project.resources = resources;
+
+  return project;
 }
 
 function addTask(newTask) {
