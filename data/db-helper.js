@@ -1,19 +1,22 @@
 const db = require("./db-config");
 
 module.exports = {
+  addResource,
+  getResources,
   addProject,
   getProjects,
   addTask,
   getTasks,
-  addResource,
-  getResources,
 };
+
+function addResource(newResource) {
+  return db("resources").insert(newResource);
+}
+
+function getResources() {}
 
 function addProject() {}
 function getProjects() {}
 
 function addTask() {}
 function getTasks() {}
-
-function addResource() {}
-function getResources() {}
