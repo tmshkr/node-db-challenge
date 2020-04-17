@@ -4,6 +4,7 @@ module.exports = {
   addResource,
   getResources,
   addProject,
+  updateProject,
   getProjects,
   getProjectByID,
   addTask,
@@ -36,6 +37,11 @@ function addProject(newProject, resource_id) {
           resource_id,
         });
     });
+}
+
+function updateProject(projectUpdate) {
+  const { id } = projectUpdate;
+  return db("projects").update(projectUpdate).where({ id });
 }
 
 function getProjects() {

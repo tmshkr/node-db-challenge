@@ -54,6 +54,24 @@ router.get("/projects/:id", (req, res) => {
     });
 });
 
+// PUT /api/projects/:id
+router.put("/projects/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, description, completed } = req.body;
+  const projectUpdate = { id, name, description, completed: !!completed };
+  if (!name) return res.status(400).send("Please provide a project name");
+  db.updateProject(projectUpdate)
+    .then((updates) =>
+      updates
+        ? res.status(200).send("Project updated")
+        : res.status(404).send("Project not found")
+    )
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("There was a problem updating the project");
+    });
+});
+
 // POST /api/tasks
 router.post("/tasks", (req, res) => {
   const { project_id, description, notes, completed } = req.body;
@@ -77,6 +95,8 @@ router.post("/tasks", (req, res) => {
 router.get("/tasks", (req, res) => {
   db.getTasks().then((data) => res.json(data));
 });
+
+// GET /api/tasks/:id
 
 router.get("/", (req, res) => {
   res.json({ api: "running..." });
