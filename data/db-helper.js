@@ -21,7 +21,9 @@ function addProject(newProject, resource_id) {
   return db("projects").insert(newProject);
 }
 
-function getProjects() {}
+function getProjects() {
+  return db("projects");
+}
 
 function addTask() {}
 function getTasks() {}

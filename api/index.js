@@ -33,6 +33,9 @@ router.post("/projects", (req, res) => {
 });
 
 // GET /api/projects
+router.get("/projects", (req, res) => {
+  db.getProjects().then((data) => res.json(data));
+});
 
 // POST /api/tasks
 // GET /api/tasks
