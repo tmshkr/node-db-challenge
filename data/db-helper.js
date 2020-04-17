@@ -13,7 +13,9 @@ function addResource(newResource) {
   return db("resources").insert(newResource);
 }
 
-function getResources() {}
+function getResources() {
+  return db("resources");
+}
 
 function addProject() {}
 function getProjects() {}

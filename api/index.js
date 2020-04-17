@@ -15,6 +15,9 @@ router.post("/resources", (req, res) => {
 });
 
 // GET /api/resources
+router.get("/resources", (req, res) => {
+  db.getResources().then((data) => res.json(data));
+});
 
 // POST /api/projects
 // GET /api/projects
