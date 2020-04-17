@@ -55,6 +55,7 @@ async function getProjectByID(id) {
 
   const tasks = await db("tasks as t")
     .join("projects as p", "p.id", "t.project_id")
+    .where({ "t.project_id": id })
     .select("t.id", "t.description", "t.notes", "t.completed");
   tasks.forEach((t) => (t.completed = !!t.completed));
   project.tasks = tasks;
