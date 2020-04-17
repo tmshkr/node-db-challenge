@@ -21,8 +21,8 @@ router.get("/resources", (req, res) => {
 
 // POST /api/projects
 router.post("/projects", (req, res) => {
-  const { name, description, resource_id } = req.body;
-  const newProject = { name, description, completed: false };
+  const { name, description, resource_id, completed } = req.body;
+  const newProject = { name, description, completed: !!completed };
   if (!name) return res.status(400).send("Please provide a project name");
   db.addProject(newProject, resource_id)
     .then(() => res.status(201).send("Project created"))
@@ -38,6 +38,23 @@ router.get("/projects", (req, res) => {
 });
 
 // POST /api/tasks
+router.post("/tasks", (req, res) => {
+  const { project_id, description, notes, completed } = req.body;
+  const newTask = {
+    project_id,
+    description,
+    notes,
+    completed: !!completed,
+  };
+  if (!(project_id && description))
+    return res.status(400).send("Please provide a description and project_id");
+  db.addTask(newTask)
+    .then(() => res.status(201).send("Task created"))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("There was a problem creating the task");
+    });
+});
 // GET /api/tasks
 
 router.get("/", (req, res) => {
